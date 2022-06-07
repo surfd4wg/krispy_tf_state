@@ -62,7 +62,7 @@ Init process
 ```bash
 bucket          = "client-us-east-1-tf-state"
 dynamodb_table  = "client-us-east-1-tf-state"
-key             = "region/terraform.tfstate"
+key             = "terraform-state/terraform.tfstate"
 region          = "us-east-1"
 encrypt         = true
 ```
