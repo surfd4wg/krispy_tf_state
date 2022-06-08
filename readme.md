@@ -1,4 +1,4 @@
-# r3d_aws_tf_backend
+# klm_s3_tf_backend
 
 ## Description
 
@@ -17,7 +17,7 @@ resources created
 clone this repo
 
 ```bash
-https://github.com/r3dlocust/r3d_aws_tf_backend.git
+https://github.com/klmorr/klm_s3_tf_backend.git
 ```
 
 navigate to the src directory
@@ -26,15 +26,15 @@ navigate to the src directory
 cd src
 ```
 
-run init.py
+run invoke_tf.py
 
 ```bash
-python init.py --action apply --client test --profile default --region us-east-1
+python invoke_tf.py --action apply --client test --profile default --region us-east-1
 ```
 
-### init.py
+### invoke_tf.py
 
-Init.py is a python script with logic to manage executing the terraform to create the backend infrastructure and manage its state.
+invoke_tf.py is a python script with logic to manage executing terraform to create the backend infrastructure and manage its state. Imports class from python files in the py_modules directory
 
 arguments
 
@@ -60,9 +60,9 @@ Init process
 - Generates a backend config file named s3.tfbackend using the **resource_name** and **region** arguments. ex:
 
 ```bash
-bucket          = "client-us-east-1-tf-state"
-dynamodb_table  = "client-us-east-1-tf-state"
-key             = "terraform-state/terraform.tfstate"
+bucket          = "{client}-us-east-1-tf-state"
+dynamodb_table  = "{client}-us-east-1-tf-state"
+key             = "state/terraform.tfstate"
 region          = "us-east-1"
 encrypt         = true
 ```
