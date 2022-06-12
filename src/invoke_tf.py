@@ -46,6 +46,10 @@ def main(args):
     else:
         DynamoDb(table_name=resource_name, region=args.region).create_table()
 
+    if bucket_exists == True and table_exists == True:
+        print(f"backend infrastructure exists in region {args.region}")
+        quit()
+
     backend_args = {
         "client": str(args.client),
         "bucket_name": str(resource_name),
