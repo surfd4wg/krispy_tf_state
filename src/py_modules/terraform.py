@@ -70,11 +70,12 @@ class TfCmd:
         self.invoke_cmd()
 
 class TfFiles:
-    def __init__(self, client=None, bucket_name=None, table_name=None, region=None, file_name=None):
+    def __init__(self, client=None, bucket_name=None, key=None, table_name=None, region=None, file_name=None):
         super().__init__()
         self.client = client
         self.region = region
         self.bucket_name = bucket_name
+        self.key = key
         self.file_name = file_name
         self.table_name = table_name
 
@@ -83,12 +84,14 @@ class TfFiles:
             self.file_name = f"s3.{self.region}.tfbackend"
         else:
             pass
+        if self.key is None:
+            self.key = "state/terraform.state"
 
         data = f"""
         bucket          = \"{self.bucket_name}\"
         dynamodb_table  = \"{self.table_name}\"
         region          = \"{self.region}\"
-        key             = "state/terraform.tfstate"
+        key             = \"{self.key}"
         encrypt         = \"true\"
         """
         with open(self.file_name, "w") as file:
