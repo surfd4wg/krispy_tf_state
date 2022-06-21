@@ -83,7 +83,7 @@ def main(args):
         TfCmd(backend_config=backend_file).tf_init()
         TfCmd().tf_plan()
 
-    move_file(source=backend_file, destination="./tfstatebackend/{backend_file}")
+    move_file(source=backend_file, destination=f'./tfstatebackend/{backend_file}')
 
     remove_directory(".terraform")
     #remove_file(backend_args.get("file_name"))
@@ -94,7 +94,7 @@ def main(args):
 
 def move_file(source, destination):
     shutil.move(source, destination)
-    
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-a",
