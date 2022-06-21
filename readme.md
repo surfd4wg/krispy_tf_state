@@ -38,7 +38,7 @@ cd ../..
 ```
 5. copy the backend file to current directory
 ```
-cp src/s3-<region>-tfbackend .
+cp src/tfbackend/s3-<region>-tfbackend .
 ```
 6. create a new provider.tf file
 ```
