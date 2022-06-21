@@ -17,7 +17,7 @@ resources created
 1. clone this repo
 
 ```bash
-https://github.com/klmorr/klm_s3_tf_backend.git
+https://github.com/surfd4wg/krispy_tf_state.git
 ```
 
 2. navigate to the src directory
