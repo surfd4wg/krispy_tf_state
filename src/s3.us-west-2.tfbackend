@@ -1,0 +1,7 @@
+
+        bucket          = "krispy-us-west-2-tf-state"
+        dynamodb_table  = "krispy-us-west-2-tf-state"
+        region          = "us-west-2"
+        key             = "state/terraform.state"
+        encrypt         = "true"
+        

@@ -48,7 +48,6 @@ def main(args):
 
     if bucket_exists == True and table_exists == True:
         print(f"backend infrastructure exists in region {args.region}")
-        quit()
 
     backend_args = {
         "client": str(args.client),
@@ -85,8 +84,8 @@ def main(args):
         TfCmd().tf_plan()
 
     remove_directory(".terraform")
-    remove_file(backend_args.get("file_name"))
-    remove_file(tfvar_args.get("file_name"))
+    #remove_file(backend_args.get("file_name"))
+    #remove_file(tfvar_args.get("file_name"))
     remove_file(".terraform.lock.hcl")
     remove_file("terraform.tfstate")
     remove_file("errored.tfstate")
