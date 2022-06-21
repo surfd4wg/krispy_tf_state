@@ -67,8 +67,6 @@ terraform plan
 terraform apply -auto-approve
 etc.
 ```
-
-terraform init 
 ### invoke_tf.py
 
 invoke_tf.py is a python script with logic to manage executing terraform to create the backend infrastructure and manage its state. Imports class from python files in the py_modules directory
