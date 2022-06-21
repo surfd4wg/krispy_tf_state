@@ -38,7 +38,7 @@ cd ../..
 ```
 5. copy the backend file to current directory
 ```
-cp src/tfstatebackend/s3-<region>-tfbackend .
+cp src/tfstatebackend/s3.<region>.tfbackend .
 ```
 6. create a new provider.tf file
 ```
@@ -58,11 +58,11 @@ provider "aws" {
 ```
 7. terraform init with the newly created backend file
 ```
-terraform init -backend-config="s3-<region>.tfbackend"
+terraform init -backend-config="s3.<region>.tfbackend"
 ```
 8. continue adding your additional terraform deployment files to the current directory (not the one used to create the backend). Followed by:
 ```
-terraform init -backend-config="s3-<region>.tfbackend"
+terraform init -backend-config="s3.<region>.tfbackend"
 terraform plan
 terraform apply -auto-approve
 etc.
