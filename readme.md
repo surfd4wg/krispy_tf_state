@@ -14,24 +14,61 @@ resources created
 
 ### Getting started
 
-clone this repo
+1. clone this repo
 
 ```bash
 https://github.com/klmorr/klm_s3_tf_backend.git
 ```
 
-navigate to the src directory
+2. navigate to the src directory
 
 ```bash
 cd src
 ```
 
-run invoke_tf.py
+3. run invoke_tf.py
 
 ```bash
 python invoke_tf.py --action apply --client test --profile default --region us-east-1
 ```
 
+4. cd to your main terraform deployment directory
+```
+cd ../..
+```
+5. copy the backend file to current directory
+```
+cp src/s3-<region>-tfbackend .
+```
+6. create a new provider.tf file
+```
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>3.70.0"
+    }
+  }
+
+  backend "s3" {}
+}
+
+provider "aws" {
+}
+```
+7. terraform init with the newly created backend file
+```
+terraform init -backend-config="s3-<region>.tfbackend"
+```
+8. continue adding your additional terraform deployment files to the current directory (not the one used to create the backend). Followed by:
+```
+terraform init -backend-config="s3-<region>.tfbackend"
+terraform plan
+terraform apply -auto-approve
+etc.
+```
+
+terraform init 
 ### invoke_tf.py
 
 invoke_tf.py is a python script with logic to manage executing terraform to create the backend infrastructure and manage its state. Imports class from python files in the py_modules directory
