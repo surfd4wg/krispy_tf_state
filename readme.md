@@ -76,3 +76,16 @@ client = "client"
 - If an existing terraform state was found, runs **terraform init** using the backend config file. If not state is found, runs **terraform init** using the backend, then imports the terraform module resources for the s3 bucket and the dynamodb table into the state
 
 - Executes terrform using the **action** argument (apply or destroy)
+
+To use with an existing or new terraform deployment, configure the provider.tf to point to the backend, for example:
+```
+terraform {
+  backend "s3" {
+    bucket = "backend bucket name"
+    dynamodb_table = "name of the dynamodb table"
+    key    = "some folder name/terraform.tfstate"
+    encrypt = true
+    region = "region your in"
+  }
+}
+```
