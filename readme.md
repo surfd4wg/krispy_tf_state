@@ -13,6 +13,11 @@ resources created
 | iam | role and policy for utilizing infrastructure |
 
 ### Getting started
+Pre-Reqs:
+```bash
+export AWS_PROFILE=your profile
+export AWS_REGION=your region
+```
 
 1. clone this repo
 
