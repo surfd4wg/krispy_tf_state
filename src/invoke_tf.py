@@ -17,7 +17,19 @@ def remove_file(file_name):
         return True
     else:
         return False
+def strip_white_space(file_name):
+    with open(file_name, 'r+') as file:
+        txt = file.read().replace(' ', '')
+        file.seek(0)
+        file.write(txt)
+        file.truncate()
 
+def update_key(file_name, new_key):
+    with open(file_name, 'r+') as file:
+        txt = file.read().replace('key="state/terraform.state"', str(new_key))
+        file.seek(0)
+        file.write(txt)
+        file.truncate()
 def main(args):
 
     os.environ["AWS_REGION"] = args.region
@@ -59,12 +71,15 @@ def main(args):
 
     TfFiles(**backend_args).tf_backend_config()
 
+    strip_white_space(file_name=backend_file)
+
     tfvar_args = {
         "client": args.client,
         "file_name": str(tfvar_file)
     }
 
     TfFiles(**tfvar_args).tf_vars()
+    strip_white_space(file_name=tfvar_file)
 
     if args.action == "destroy":
         TfCmd(backend_config=backend_file).tf_init()
@@ -78,19 +93,24 @@ def main(args):
             TfCmd(module_import=f"module.s3_backend.aws_s3_bucket.main {resource_name}").tf_import()
             TfCmd(module_import=f"module.s3_backend.aws_dynamodb_table.main {resource_name}").tf_import()
         TfCmd().tf_apply()
+        if args.new_key:
+            new_key = f'key = "{args.new_key}"'
+            update_key(file_name=backend_file, new_key=new_key)
+        move_file(source=backend_file, destination=f'../tfstatebackend/{backend_file}')
 
     elif args.action == "plan":
         TfCmd(backend_config=backend_file).tf_init()
         TfCmd().tf_plan()
 
-    move_file(source=backend_file, destination=f'./tfstatebackend/{backend_file}')
-
     remove_directory(".terraform")
-    #remove_file(backend_args.get("file_name"))
-    #remove_file(tfvar_args.get("file_name"))
+    remove_file(tfvar_args.get("file_name"))
     remove_file(".terraform.lock.hcl")
     remove_file("terraform.tfstate")
     remove_file("errored.tfstate")
+    if args.action != "apply":
+        remove_file(backend_args.get("file_name"))
+    else:
+        pass
 
 def move_file(source, destination):
     shutil.move(source, destination)
@@ -106,6 +126,10 @@ if __name__ == "__main__":
                         "--client",
                         required=True,
                         help="owner for the terraform created resources")
+    parser.add_argument("-n",
+                        "--new_key",
+                        required=False,
+                        help="creates a new key for the tf backend file")
     parser.add_argument("-p",
                         "--profile",
                         required=True,
